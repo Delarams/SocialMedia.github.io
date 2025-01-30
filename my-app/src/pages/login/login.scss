@@ -1,0 +1,37 @@
+.login{
+height: 100vh;
+background-color: rgb(162, 224, 221);
+display: flex;
+align-items: center;
+justify-content: center;
+
+
+    .card{
+        width: 50%;
+        display: flex;
+        background-color: white;
+        border-radius: 10px;
+        min-height: 600px;
+
+        .left{
+            flex: 1;
+            background: url("https://images.pexels.com/photos/10727250/pexels-photo-10727250.jpeg")
+            center;
+            background-size: cover;
+
+
+            h1{}
+            p{}
+            span{}
+            button{}
+        }
+        .right{
+            flex: 1;
+            h1{}
+            form{
+                input{}
+                button{}
+            }
+        }
+    }
+}
