@@ -2,24 +2,38 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://delarams.github.io/SocialMedia.github.io/", 
+  "homepage": "https://delarams.github.io/SocialMedia.github.io/",
   "dependencies": {
+    "@babel/eslint-parser": "^7.26.5",
+    "@babel/plugin-transform-class-properties": "^7.25.9",
+    "@babel/plugin-transform-nullish-coalescing-operator": "^7.26.6",
+    "@babel/plugin-transform-optional-chaining": "^7.25.9",
+    "@sideway/address": "^5.0.0",
+    "@svgr/plugin-svgo": "^8.1.0",
+    "@svgr/webpack": "^8.1.0",
     "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "core-js": "^3.40.0",
+    "eslint": "^9.19.0",
+    "html-webpack-plugin": "^5.6.3",
+    "joi": "^17.13.3",
+    "postcss": "^8.5.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-router-dom": "^7.1.5",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
+    "resolve-url-loader": "^5.0.0",
     "sass": "^1.83.4",
+    "svgo": "^3.3.2",
+    "uuid": "^11.0.5",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
+  "start": "react-scripts start",
+  "build": "react-scripts build",
+  "predeploy": "yarn build",
+  "deploy": "gh-pages -d build"
+},
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -39,6 +53,8 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "eslint-config-react-app": "^7.0.1",
+    "gh-pages": "^6.3.0"
   }
 }
