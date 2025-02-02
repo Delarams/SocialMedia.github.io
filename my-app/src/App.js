@@ -15,7 +15,9 @@ const Layout = () => {
       <Navbar />
       <div style={{ display: "flex" }}>
         <LeftBar />
-        <Outlet /> {/* Outlet should be recognized now */}
+        <div style={{flex:6}}>
+          <Outlet /> 
+        </div>
         <RightBar />
       </div>
     </div>
@@ -39,8 +41,8 @@ const router = createBrowserRouter(
         </ProtectedRoute>
       ),
       children: [
-        { path: "/", element: <Profile /> },
-        { path: "/profile/:id", element: <Home /> },
+        { path: "/", element: <Home /> },
+        { path: "/profile/:id", element: <Profile /> },
       ],
     },
     { path: "/login", element: <Login /> },
