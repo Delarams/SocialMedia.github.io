@@ -5,7 +5,9 @@ import LeftBar from "./components/leftBar/LeftBar";
 import RightBar from "./components/rightBar/RightBar";
 import Home from "./pages/home/Home";
 import Profile from "./pages/profile/Profile";
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom"; 
+import { createBrowserRouter, RouterProvider, Outlet, Navigate } from "react-router-dom"; // ✅ Ensure Outlet is imported
+
+const currentUser = true;
 
 const Layout = () => {
   return (
@@ -13,35 +15,41 @@ const Layout = () => {
       <Navbar />
       <div style={{ display: "flex" }}>
         <LeftBar />
-        <Outlet /> {/* This allows nested routes to render */}
+        <Outlet /> {/* Outlet should be recognized now */}
         <RightBar />
       </div>
     </div>
   );
 };
 
+const ProtectedRoute = ({children}) =>{
+  if(!currentUser){
+    return <Navigate to="/login" />
+  }
+  return children
+}
+
 const router = createBrowserRouter(
   [
     {
       path: "/",
-      element: <Layout />,
+      element: (
+        <ProtectedRoute>
+          <Layout />
+        </ProtectedRoute>
+      ),
       children: [
-        {
-          path: "/",
-          element: <Profile />,
-        },
-        {
-          path: "/profile/:id",
-          element: <Home />,
-        },
+        { path: "/", element: <Profile /> },
+        { path: "/profile/:id", element: <Home /> },
       ],
     },
     { path: "/login", element: <Login /> },
     { path: "/register", element: <Register /> },
     { path: "*", element: <div>404 - Page Not Found</div> },
   ],
-  { basename: "/SocialMedia.github.io" } // 👈 This helps with GitHub Pages deployment
+  { basename: "/SocialMedia.github.io" }
 );
+
 
 function App() {
   return (
