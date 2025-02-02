@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/SocialMedia.github.io/static/css/main.0c115517.css",
+    "main.js": "/SocialMedia.github.io/static/js/main.f80521a5.js",
+    "static/js/453.ed3810f9.chunk.js": "/SocialMedia.github.io/static/js/453.ed3810f9.chunk.js",
+    "index.html": "/SocialMedia.github.io/index.html",
+    "main.0c115517.css.map": "/SocialMedia.github.io/static/css/main.0c115517.css.map",
+    "main.f80521a5.js.map": "/SocialMedia.github.io/static/js/main.f80521a5.js.map",
+    "453.ed3810f9.chunk.js.map": "/SocialMedia.github.io/static/js/453.ed3810f9.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0c115517.css",
+    "static/js/main.f80521a5.js"
+  ]
+}
