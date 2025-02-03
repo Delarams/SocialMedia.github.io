@@ -60,7 +60,7 @@ const RightBar = () => {
             <div className="userInfo">
               <img src="https://images.pexels.com/photos/10727250/pexels-photo-10727250.jpeg" alt="" />
               <p>
-              <span>Jane Doe</span>  changed their cover picture
+              <span>Jane Doe</span> changed their cover picture
               </p>
             </div>
             <span>1 min ago</span>

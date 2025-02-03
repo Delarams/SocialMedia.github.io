@@ -7,10 +7,11 @@
         justify-content: space-between;
         padding: 10px 20px;
         height: 50px;
-        border-bottom: 1px solid lightgray;
+        border-bottom: 1px solid themed("border");
         position: sticky;
         top: 0; 
         background-color: themed("bg");
+        color: themed("textColor");
 
         .left{
             display: flex;
@@ -20,18 +21,20 @@
             span{
                 font-weight: bold;
                 font-size: 20px;
-                color: navy;
+                color: themed("logo");
             }
             .search{
                 display: flex;
                 align-items: center;
                 gap: 10px;
-                border: 1px solid lightgray;
+                border: 1px solid themed("border");
                 border-radius: 5px;
                 padding: 5px;
                 input{
                     border: none;
                     width: 500px;
+                    background-color: transparent;
+                    color: themed("textColor");
                 }
             }
 
