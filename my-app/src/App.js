@@ -9,8 +9,7 @@ import "./style.scss";
 import { createBrowserRouter, RouterProvider, Outlet, Navigate } from "react-router-dom"; 
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
-
-const currentUser = true;
+import { AuthContext } from "./context/authContext";
 
 const Layout = ({ darkMode }) => {
   return (
@@ -27,7 +26,7 @@ const Layout = ({ darkMode }) => {
   );
 };
 
-const ProtectedRoute = ({ children }) => {
+const ProtectedRoute = ({ children, currentUser }) => {
   if (!currentUser) {
     return <Navigate to="/login" />;
   }
@@ -36,15 +35,15 @@ const ProtectedRoute = ({ children }) => {
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
-  console.log(darkMode);
+  const { currentUser } = useContext(AuthContext);
 
   const router = createBrowserRouter(
     [
       {
         path: "/",
         element: (
-          <ProtectedRoute>
-            <Layout darkMode={darkMode} /> {/* ✅ Pass darkMode as a prop */}
+          <ProtectedRoute currentUser={currentUser}>
+            <Layout darkMode={darkMode} />
           </ProtectedRoute>
         ),
         children: [
