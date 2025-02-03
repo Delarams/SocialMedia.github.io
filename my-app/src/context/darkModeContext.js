@@ -1,22 +1,27 @@
 import { createContext, useEffect, useState } from "react";
 
-export const DarkModeContext = createContext()
+export const DarkModeContext = createContext();
 
-export const DarkModeContextProvider = ({children}) =>{
+export const DarkModeContextProvider = ({ children }) => {
+  const [darkMode, setDarkMode] = useState(
+    () => JSON.parse(localStorage.getItem("darkMode")) ?? false // ✅ Ensure boolean type
+  );
 
-    const [darkMode, setDarkMode] = useState(
-        JSON.parse(localStorage.getItem("darkMode")) || false );
+  const toggle = () => {
+    setDarkMode((prevMode) => {
+      const newMode = !prevMode;
+      localStorage.setItem("darkMode", JSON.stringify(newMode)); // ✅ Update localStorage immediately
+      return newMode;
+    });
+  };
 
-    const toggle = () =>{
-        setDarkMode(!darkMode)
-    }
+  useEffect(() => {
+    document.body.className = darkMode ? "theme-dark" : "theme-light"; // ✅ Apply class dynamically
+  }, [darkMode]); // ✅ Re-run on darkMode changes
 
-    useEffect(()=>{
-        localStorage.setItem("darkMode", darkMode)
-    }, [darkMode])
-
-    return(
-        <DarkModeContext.Provider value={{darkMode, toggle}}>{children}</DarkModeContext.Provider>
-    )
-
+  return (
+    <DarkModeContext.Provider value={{ darkMode, toggle }}>
+      {children}
+    </DarkModeContext.Provider>
+  );
 };
