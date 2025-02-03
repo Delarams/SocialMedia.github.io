@@ -5,19 +5,21 @@ import LeftBar from "./components/leftBar/LeftBar";
 import RightBar from "./components/rightBar/RightBar";
 import Home from "./pages/home/Home";
 import Profile from "./pages/profile/Profile";
-import "./style.scss"
-import { createBrowserRouter, RouterProvider, Outlet, Navigate } from "react-router-dom"; // ✅ Ensure Outlet is imported
+import "./style.scss";
+import { createBrowserRouter, RouterProvider, Outlet, Navigate } from "react-router-dom"; 
+import { useContext } from "react";
+import { DarkModeContext } from "./context/darkModeContext";
 
 const currentUser = true;
 
-const Layout = () => {
+const Layout = ({ darkMode }) => {
   return (
-    <div className="theme-dark">
+    <div className={`theme-${darkMode ? "dark" : "light"}`}>
       <Navbar />
       <div style={{ display: "flex" }}>
         <LeftBar />
-        <div style={{flex:6}}>
-          <Outlet /> 
+        <div style={{ flex: 6 }}>
+          <Outlet />
         </div>
         <RightBar />
       </div>
@@ -25,36 +27,38 @@ const Layout = () => {
   );
 };
 
-const ProtectedRoute = ({children}) =>{
-  if(!currentUser){
-    return <Navigate to="/login" />
+const ProtectedRoute = ({ children }) => {
+  if (!currentUser) {
+    return <Navigate to="/login" />;
   }
-  return children
-}
-
-const router = createBrowserRouter(
-  [
-    {
-      path: "/",
-      element: (
-        <ProtectedRoute>
-          <Layout />
-        </ProtectedRoute>
-      ),
-      children: [
-        { path: "/", element: <Home /> },
-        { path: "/profile/:id", element: <Profile /> },
-      ],
-    },
-    { path: "/login", element: <Login /> },
-    { path: "/register", element: <Register /> },
-    { path: "*", element: <div>404 - Page Not Found</div> },
-  ],
-  { basename: "/SocialMedia.github.io" }
-);
-
+  return children;
+};
 
 function App() {
+  const { darkMode } = useContext(DarkModeContext);
+  console.log(darkMode);
+
+  const router = createBrowserRouter(
+    [
+      {
+        path: "/",
+        element: (
+          <ProtectedRoute>
+            <Layout darkMode={darkMode} /> {/* ✅ Pass darkMode as a prop */}
+          </ProtectedRoute>
+        ),
+        children: [
+          { path: "/", element: <Home /> },
+          { path: "/profile/:id", element: <Profile /> },
+        ],
+      },
+      { path: "/login", element: <Login /> },
+      { path: "/register", element: <Register /> },
+      { path: "*", element: <div>404 - Page Not Found</div> },
+    ],
+    { basename: "/SocialMedia.github.io" }
+  );
+
   return (
     <div>
       <RouterProvider router={router} />
