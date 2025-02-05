@@ -1,6 +1,7 @@
 // import { request } from "express";
 import {db} from "../connect.js"
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 export const register = (req, res) =>{
     
@@ -35,9 +36,35 @@ export const register = (req, res) =>{
 };
 
 export const login = (req, res) =>{
+    const q = "SELECT * FROM users WHERE username = ?"
+    db.query(q, [req.body.username], (err, data)=>{
+        if(err) return res.status(500).json(err);
+        if(data.length===0) return res.status(404).json("User not found!");
 
-}
+        const checkPassword = bcrypt.compareSync(req.body.password, data[0].password)
+
+        if(!checkPassword) return res.status(400).json("Wrong password or username!")
+        
+        
+        // example use: TO make sure only you can delete your own post
+        const token = jwt.sign({id:data[0].id}, "secretkey");
+
+        // separates password and other properties
+        const {password, ...others} = data[0]
+
+        // Using the cookie stores a hashed token includes the userId, and using that id
+        // we can delete posts, follow/unfollow people and more
+        res.cookie("accessToken", token, {
+            httpOnly: true,
+        })
+        .status(200)
+        .json(others);
+    });
+};
 
 export const logout = (req, res) =>{
-    
-}
+    res.clearCookie("accessToken", {
+        secure:true, 
+        sameSite:"none"
+    }).status(200).json("User has been logged out.")
+};
