@@ -16,6 +16,7 @@ export const getPosts =(req, res)=>{
 
         db.query(q, [userInfo.id, userInfo.id], (err, data) => {
             if (err) return res.status(500).json(err);
+            console.log("Fetched posts:", data);
             return res.status(200).json(data)
         });
     });
@@ -34,7 +35,7 @@ export const addPost =(req, res)=>{
 
         // AS p JOIN users AS u because we want fetch user data from user table to show the user 
         //profile pic on top of the post
-        const q = `INSERT INTO posts ("desc", "img", "createdAt", "userId") VALUES ?`
+        const q = "INSERT INTO posts (`desc`, `img`, `createdAt`, `userId`) VALUES (?)"
 
         const values = [
             req.body.desc, 
@@ -43,9 +44,9 @@ export const addPost =(req, res)=>{
             userInfo.id
         ]
 
-        db.query(q, [userInfo.id, userInfo.id], (err, data) => {
+        db.query(q, [values], (err, data) => {
             if (err) return res.status(500).json(err);
-            return res.status(200).json(data)
+            return res.status(200).json("Post has been created!")
         });
     });
 
