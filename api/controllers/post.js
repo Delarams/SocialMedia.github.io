@@ -20,9 +20,6 @@ export const getPosts =(req, res)=>{
             return res.status(200).json(data)
         });
     });
-
-
-    
 }
 
 
@@ -48,8 +45,5 @@ export const addPost =(req, res)=>{
             if (err) return res.status(500).json(err);
             return res.status(200).json("Post has been created!")
         });
-    });
-
-
-    
+    }); 
 }
