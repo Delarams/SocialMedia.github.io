@@ -8,13 +8,40 @@ import { Link } from "react-router-dom";
 import Comments from "../comments/Comments";
 import { useState } from "react";
 import moment from "moment"
-
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
+import { makeRequest } from "../../axios";
+import { AuthContext } from "../../context/authContext";
+import { useContext } from "react";
 
 const Post = ({post}) =>{
 
     const [commentOpen, setCommentOpen] = useState(false)
 
-    const liked = true;
+    const {currentUser} = useContext(AuthContext)
+
+    const { isLoading, error, data } = useQuery({
+        queryKey: ['likes', post.id], 
+        queryFn: async () => {
+          const res = await makeRequest.get("/likes?postId="+post.id);
+          return res.data;
+        }
+    });
+
+    const queryClient = useQueryClient()
+
+    const mutation = useMutation({
+        mutationFn: (liked) =>{ 
+            if(liked) return makeRequest.delete("/likes?postId="+ post.id);
+            return makeRequest.post("/likes", {postId: post.id});
+        },
+        onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["likes"] });
+        },
+    });
+
+    const handleLike = () => {
+        mutation.mutate(data.includes(currentUser.id))
+    }
 
     return(
         <div className="post">
@@ -39,8 +66,8 @@ const Post = ({post}) =>{
                 </div>
                 <div className="info">
                     <div className="item">
-                        {liked ? < FavoriteOutlinedIcon/> : < FavoriteBorderOutlinedIcon/>}
-                        12 Likes
+                        { isLoading ? "loading": data.includes(currentUser.id) ? < FavoriteOutlinedIcon style={{color:"red"}} onClick={handleLike} /> : < FavoriteBorderOutlinedIcon onClick={handleLike}/>}
+                        {isLoading ? "Loading..." : (data?.length || 0)} Likes
                     </div>
                     <div className="item" onClick={()=>setCommentOpen(!commentOpen)} >
                         <TextsmsOutlinedIcon/>
@@ -51,7 +78,7 @@ const Post = ({post}) =>{
                         Share
                     </div>
                 </div>
-                {commentOpen && <Comments/>}
+                {commentOpen && <Comments postId={post.id} />}
             </div>
         </div>
     )
