@@ -54,7 +54,7 @@ function App() {
         ),
         children: [
           { path: "/", element: <Home /> },
-          { path: "/profile/:id", element: <Profile /> },
+          { path: "/profile/:userId", element: <Profile /> },
         ],
       },
       { path: "/login", element: <Login /> },

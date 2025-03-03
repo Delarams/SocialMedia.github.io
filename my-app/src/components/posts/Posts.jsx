@@ -3,7 +3,7 @@ import Post from "../post/Post";
 import { useQuery } from '@tanstack/react-query'
 import { makeRequest } from "../../axios";
 
-const Posts = () => {
+const Posts = ({userId}) => {
 
   // const { isLoading, error, data } = useQuery({
   //   queryKey: ['posts'], 
@@ -30,14 +30,17 @@ const Posts = () => {
   // );
 
   const { isLoading, error, data } = useQuery({
-    queryKey: ['posts'], 
+    queryKey: userId ? ['posts', userId] : ['posts'], 
     queryFn: async () => {
       console.log("Fetching posts...");
-      const res = await makeRequest.get("/posts");
+      const url = userId ? `/posts?userId=${userId}` : "/posts";
+      console.log("🛠️ Request URL:", url);  // Debugging
+      const res = await makeRequest.get(url);
       console.log("Fetched data:", res.data);
       return res.data;
     }
-  });
+});
+
   
   console.log("Error:", error);
   
